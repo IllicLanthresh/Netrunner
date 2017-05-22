@@ -5,16 +5,26 @@ using System;
 
 public class GameManager : MonoBehaviour {
 
+    // References to the basic prefabs
     public GameObject deckPrefab;
     public GameObject cardPrefab;
+
+    //Paths to deck lists (Currently using a TXT)
+    //The format is '(Quantity)x(Name of card)' -- Ignore the '()'
     public string pathToRunnerDeck;
     public string pathToCorpDeck;
+    
+    //Callback after api data has been downloaded
     Action apiDownloadedCB;
+
+    //Declare the card data base
     CardDB cardDB = new CardDB();
 
-    // Use this for initialization
     void Start () {
+
+        //Register the 'api downloaded' callback function
         apiDownloadedCB += OnDBDownloaded;
+
         //Download the api data
         Debug.Log("Start DB Download");
         StartCoroutine(cardDB.DownloadAPI(apiDownloadedCB));
@@ -24,11 +34,11 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log("DB Download finished");
 
-        //Get the game areas
+        //Get the game areas GO
         GameObject RunnerArea = GameObject.FindGameObjectWithTag("Runner");
         GameObject CorpArea = GameObject.FindGameObjectWithTag("Corp");
 
-        //Create decks
+        //Create decks GO
         GameObject Runner_deck = Instantiate(deckPrefab, Vector3.zero, Quaternion.identity).gameObject;
         GameObject Corp_deck = Instantiate(deckPrefab, Vector3.zero, Quaternion.identity).gameObject;
 
@@ -47,6 +57,7 @@ public class GameManager : MonoBehaviour {
         Vector3 RunnerDeckRotation = new Vector3(90, 180, 0);
 
         //Apply such positions and rotations
+        //FIXME: Not final positions, this will change!
         Corp_deck.transform.Translate(CorpDeckPosition);
         Runner_deck.transform.Translate(RunnerDeckPosition);
         Corp_deck.transform.Rotate(CorpDeckRotation, Space.World);
@@ -56,7 +67,7 @@ public class GameManager : MonoBehaviour {
         Corp_deck.transform.SetParent(CorpArea.transform, true);
         Runner_deck.transform.SetParent(RunnerArea.transform, true);
 
-        //Set deck sides
+        //Tell each Deck Manager wich side is it(Runner or Corp)
         CorpDeckManager.DeckSide = DeckManager.side.Corp;
         RunnerDeckManager.DeckSide = DeckManager.side.Runner;
 
@@ -69,5 +80,8 @@ public class GameManager : MonoBehaviour {
         //TODO: Shuffle decks
 
         //TODO: Start turn manager
+
+        //TODO: More stuff???
+
     }
 }

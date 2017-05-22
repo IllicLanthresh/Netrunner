@@ -6,8 +6,9 @@ using System;
 
 public class CardDB
 {
-    //TODO: Finish debug or delete it
-    public bool DebugOn;
+    //TODO: Make a debug screen?? or just delete this
+    public bool DebugOn; //Currently not operational
+
     public string api_url = "https://netrunnerdb.com/api/2.0/public/cards";
 
     [System.Serializable]
@@ -72,12 +73,12 @@ public class CardDB
 
 
 
-    public IEnumerator DownloadAPI(Action callback)
+    public IEnumerator DownloadAPI(Action callBack)
     {
         WWW url = new WWW(api_url);
         while (!url.isDone)
         {
-            Debug.Log("Downloading api: " + url.progress * 100 + "%");
+            Debug.Log("Downloading api: " + url.progress * 100 + "%"); //Enable this only when needed.
             yield return null;
         }
 
@@ -89,6 +90,6 @@ public class CardDB
 
 
         data = Api.data;
-        callback();
+        callBack();
     }
 }
