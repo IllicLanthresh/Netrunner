@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour {
         Vector3 RunnerDeckRotation = new Vector3(90, 180, 0);
 
         //Apply such positions and rotations
-        //FIXME: Not final positions, this will change!
+        //TODO: Not final positions, this will change!
         Corp_deck.transform.Translate(CorpDeckPosition);
         Runner_deck.transform.Translate(RunnerDeckPosition);
         Corp_deck.transform.Rotate(CorpDeckRotation, Space.World);
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(RunnerDeckManager.getCards(Application.dataPath + "/" + pathToRunnerDeck, cardDB, cardPrefab));
         StartCoroutine(CorpDeckManager.getCards(Application.dataPath + "/" + pathToCorpDeck, cardDB, cardPrefab));
 
-        //TODO: Get identity card out
+        //TODO: Get identity card out(of the deck)
 
         //TODO: Shuffle decks
 

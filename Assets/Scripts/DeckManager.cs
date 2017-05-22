@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
 
 public class DeckManager : MonoBehaviour {
 
@@ -22,13 +21,13 @@ public class DeckManager : MonoBehaviour {
     //This stores which side the deck is(Runner or Corp)
     public side DeckSide;
 
-    public IEnumerator getCards(string path, CardDB cardDB, GameObject cardPrefab) //FIXME: Maybe wanna rename 'getCards' to something like 'downloadCards' or make this a constructor
+    public IEnumerator getCards(string path, CardDB cardDB, GameObject cardPrefab) //TODO: Maybe wanna rename 'getCards' to something like 'downloadCards' or make this a constructor
     {
         //Get the instances in the database of every card our deck must have
         cards = deckReader.Load(path, cardDB);
 
         //Multiplier to put each card on top of the other
-        int increment = 0; //FIXME: Find a better way to do this
+        int increment = 0; //TODO: Find a better way to do this
         
         foreach (CardDB.NetrunnerDBApi.cardData card in cards)
         {
