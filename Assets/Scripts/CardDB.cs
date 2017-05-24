@@ -4,92 +4,41 @@ using UnityEngine;
 using System;
 
 
-public class CardDB
+public static class CardDB
 {
-    //TODO: Make a debug screen?? or just delete this
-    public bool DebugOn; //Currently not operational
+    static string api_url;
 
-    public string api_url = "https://netrunnerdb.com/api/2.0/public/cards";
+    static string base_img_url;
 
-    [System.Serializable]
-
-    public class NetrunnerDBApi
-    { 
-        public string imageUrlTemplate;
-
-        [System.Serializable]
-        public class cardData
-        {
-            public string code;
-
-            public string faction_code;
-            public string side_code;
-
-            public string type_code;
-            public string keywords;
-
-            public string title;
-            public string text;
-
-            public int minimum_deck_size;
-            public int influence_limit;
-
-            public int base_link;
-
-            public int cost;
-            public int memory_cost;
-            public int strength;
-
-        }
-        public cardData[] data;
-
-        public int total;
-        public bool success;
-        public string version_number;
-        public string last_updated;
+    public static void SetApiUrl(string url)
+    {
+        api_url = url;
     }
 
-    NetrunnerDBApi.cardData[] data;
-
-    
-
-    public NetrunnerDBApi.cardData[] Data
+    public static IEnumerator DownloadAPI(Action<string> callBack)
     {
-        get
+        WWW unparsedAPI = new WWW(api_url);
+        while (!unparsedAPI.isDone)
         {
-            return data;
-        }
-    }
-
-    public string Base_img_url
-    {
-        get
-        {
-            return base_img_url;
-        }
-    }
-
-    private string base_img_url;
-
-
-
-    public IEnumerator DownloadAPI(Action callBack)
-    {
-        WWW url = new WWW(api_url);
-        while (!url.isDone)
-        {
-            Debug.Log("Downloading api: " + url.progress * 100 + "%"); //Enable this only when needed.
+            //Debug.Log("Downloading api: " + unparsedAPI.progress * 100 + "%"); //Enable this only when needed.
             yield return null;
         }
 
-        WWW unparsedAPI = url;
+        callBack(unparsedAPI.text);
+    }
+
+    public static CardDBEntry[] ParseApi(string unparsedAPI)
+    {
         NetrunnerDBApi Api = new NetrunnerDBApi();
-        Api = JsonUtility.FromJson<NetrunnerDBApi>(unparsedAPI.text);
+        Api = JsonUtility.FromJson<NetrunnerDBApi>(unparsedAPI);
         base_img_url = Api.imageUrlTemplate;
-        Debug.Log("API Version: " + Api.version_number);
 
+        Debug.Log(Api.data);
+        return Api.data;
+    }
 
-        data = Api.data;
-        callBack();
+    public static string GetBaseImgUrl()
+    {
+        return base_img_url;
     }
 }

@@ -95,10 +95,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\CardDBEntry.cs" />
     <Compile Include="Assets\Scripts\CardDB.cs" />
-    <Compile Include="Assets\Scripts\DeckFileReader.cs" />
-    <Compile Include="Assets\Scripts\DeckManager.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Deck.cs" />
+    <Compile Include="Assets\Scripts\Game.cs" />
+    <Compile Include="Assets\Scripts\NetrunnerDBApi.cs" />
     <Compile Include="Assets\Scripts\TurnManager.cs" />
   </ItemGroup>
   <ItemGroup>
